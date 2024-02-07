@@ -9,7 +9,7 @@ import(
 	"github.com/meilisearch/meilisearch-go"
 )
 
-func IndexDataHandler(w http.ResponseWriter, r *http.Request, client *meilisearch.Client) {
+func IndexDataHandler(w http.ResponseWriter, r *http.Request) {
 	// Read the JSON data from the request body
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
@@ -27,6 +27,11 @@ func IndexDataHandler(w http.ResponseWriter, r *http.Request, client *meilisearc
 
 	// Index the documents
 	startTime := time.Now()
+	client := meilisearch.NewClient(meilisearch.ClientConfig{
+		Host:   "http://localhost:7700",
+		APIKey: "LqcRikNbtOTl0zOTwp746huTR8bR83LPI_xXeMhAnMo",
+	})
+	
 	_, err = client.Index("products").AddDocuments(products)
 	if err != nil {
 		http.Error(w, "Error indexing documents", http.StatusInternalServerError)

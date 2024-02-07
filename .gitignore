@@ -22,3 +22,4 @@ go.work
 
 # Ignore data folder
 data/
+meili_data/

@@ -1,20 +1,22 @@
 package main
 
 import (
-	"github.com/al0nkr/catalog-indexing-engine/search"
-	"github.com/al0nkr/catalog-indexing-engine/index"
 	"github.com/go-chi/chi"
 	"github.com/meilisearch/meilisearch-go"
+	"main/index"
+	"main/search"
 	"net/http"
 )
 
 func main() {
 	r := chi.NewRouter()
+	r.Post("/index", index.IndexDataHandler)
 
 	client := meilisearch.NewClient(meilisearch.ClientConfig{
 		Host:   "http://localhost:7700",
 		APIKey: "LqcRikNbtOTl0zOTwp746huTR8bR83LPI_xXeMhAnMo",
 	})
-	r.Post("/index", index.IndexDataHandler(client))
-	http.ListenAndServe(":8080", r)
+
+	r.Get("/search", search.SearchHandler(client))
+	http.ListenAndServe(":3000", r)
 }
