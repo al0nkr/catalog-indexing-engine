@@ -9,7 +9,7 @@ import(
 	"github.com/meilisearch/meilisearch-go"
 )
 
-func IndexDataHandler(w http.ResponseWriter, r *http.Request) {
+func IndexDataHandler(w http.ResponseWriter, r *http.Request, client *meilisearch.Client) {
 	// Read the JSON data from the request body
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
@@ -24,12 +24,6 @@ func IndexDataHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Error parsing JSON data", http.StatusBadRequest)
 		return
 	}
-
-	// Create a MeiliSearch client
-	client := meilisearch.NewClient(meilisearch.ClientConfig{
-		Host:   "http://localhost:7700",
-		APIKey: "YOUR_API_KEY",
-	})
 
 	// Index the documents
 	startTime := time.Now()
