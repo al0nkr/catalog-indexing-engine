@@ -134,11 +134,15 @@ func getSimilarProducts(client *meilisearch.Client,query string) ([]string, erro
 			for _, part := range cand.Content.Parts {
 				partStr := fmt.Sprintf("%v", part)
 				lines := strings.Split(partStr, "\n")
-
 				// Iterate through each line
 				for _, line := range lines {
+
+					if err != nil {
+						panic(err)
+					}
 					similarQueries = append(similarQueries, line[2:])
 				}
+
 			}
 		}
 	}
@@ -161,9 +165,6 @@ func getSimilarProducts(client *meilisearch.Client,query string) ([]string, erro
 		}
 	}
 
-	if err != nil {
-		return nil, err
-	}
-
-	return similarProducts, nil
+	
+	return similarProducts, err
 }
