@@ -1,0 +1,1 @@
+./meilisearch --master-key LqcRikNbtOTl0zOTwp746huTR8bR83LPI_xXeMhAnMo --http-payload-size-limit 536870912

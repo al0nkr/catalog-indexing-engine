@@ -1,0 +1,1 @@
+cd catalog-indexing-engine && go run main.go

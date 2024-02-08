@@ -6,9 +6,24 @@ import (
 	"main/index"
 	"main/search"
 	"net/http"
+	"os/exec"
+	"fmt"
 )
 
 func main() {
+
+	cmd := exec.Command("./meilisearch", "--master-key", "LqcRikNbtOTl0zOTwp746huTR8bR83LPI_xXeMhAnMo", "--http-payload-size-limit", "536870912")
+
+    // Capture stdout and stderr
+    stdoutStderr, err := cmd.CombinedOutput()
+    if err != nil {
+        fmt.Println("Error executing Meilisearch command:", err)
+        fmt.Println("Meilisearch stderr:", string(stdoutStderr))
+        return
+    }
+    fmt.Println("Meilisearch output:", string(stdoutStderr))
+
+	
 	r := chi.NewRouter()
 	r.Post("/index", index.IndexDataHandler)
 
@@ -19,4 +34,5 @@ func main() {
 
 	r.Get("/search", search.SearchHandler(client))
 	http.ListenAndServe(":3000", r)
+	fmt.Println("Server started at :3000")
 }
