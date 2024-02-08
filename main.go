@@ -10,19 +10,20 @@ import (
 	"fmt"
 )
 
+func executeMeilisearch() {
+	cmd := exec.Command("./meilisearch", "--master-key", "LqcRikNbtOTl0zOTwp746huTR8bR83LPI_xXeMhAnMo", "--http-payload-size-limit", "536870912")
+	stdoutStderr, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Println("Error executing Meilisearch command:", err)
+		fmt.Println("Meilisearch stderr:", string(stdoutStderr))
+		return
+	}
+	fmt.Println("Meilisearch output:", string(stdoutStderr))
+}
+
 func main() {
 
-	cmd := exec.Command("./meilisearch", "--master-key", "LqcRikNbtOTl0zOTwp746huTR8bR83LPI_xXeMhAnMo", "--http-payload-size-limit", "536870912")
-
-    // Capture stdout and stderr
-    stdoutStderr, err := cmd.CombinedOutput()
-    if err != nil {
-        fmt.Println("Error executing Meilisearch command:", err)
-        fmt.Println("Meilisearch stderr:", string(stdoutStderr))
-        return
-    }
-    fmt.Println("Meilisearch output:", string(stdoutStderr))
-
+	go executeMeilisearch()
 	
 	r := chi.NewRouter()
 	r.Post("/index", index.IndexDataHandler)
