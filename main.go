@@ -12,6 +12,17 @@ import (
 )
 
 func executeMeilisearch() {
+	_, err := exec.LookPath("meilisearch")
+	if err != nil {
+		// meilisearch executable does not exist, run installation command
+		cmd := exec.Command("sh", "-c", "curl -L https://install.meilisearch.com | sh")
+		err := cmd.Run()
+		if err != nil {
+			fmt.Println("Error installing Meilisearch:", err)
+			return
+		}
+	}
+
 	cmd := exec.Command("./meilisearch", "--master-key", "LqcRikNbtOTl0zOTwp746huTR8bR83LPI_xXeMhAnMo", "--http-payload-size-limit", "536870912")
 	stdoutStderr, err := cmd.CombinedOutput()
 	if err != nil {
